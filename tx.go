@@ -180,6 +180,10 @@ func (tx *Tx) Commit() error {
 		tx.meta.freelist = pgidNoFreelist
 	}
 
+	if _, err := os.Stat("/tmp/exitnow"); err == nil {
+		time.Sleep(200 * time.Millisecond)
+	}
+
 	// Write dirty pages to disk.
 	startTime = time.Now()
 	if err := tx.write(); err != nil {
